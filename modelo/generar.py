@@ -1,6 +1,11 @@
-def congruencial_lineal_mixto():
-    # completar
-    pass
+def congruencial_lineal_multiplicativo(iteraciones, multiplicador, semilla, modulo):    
+    resultados = []
+
+    for _ in range(iteraciones):
+        semilla = (multiplicador * semilla) % modulo
+        resultados.append(semilla)
+
+    return resultados
 
 def congruencial_lineal(iteraciones, multiplicador, semilla, corrimiento, modulo):
     resultados = []
