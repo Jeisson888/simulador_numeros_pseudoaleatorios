@@ -3,6 +3,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from modelo.generar import *
+from modelo.probar import *
 
 iteraciones = 20
 multiplicador = 5
@@ -22,3 +23,6 @@ semilla = 2573
 resultados = cuadrados_medios(iteraciones, semilla)
 print('cuadrados medios:')
 print(resultados)
+
+chi2, p_valor = chi_cuadrada(resultados)
+print('Chi cuadrada: ' + str(chi2) + ', p-valor: ' + str(p_valor))
