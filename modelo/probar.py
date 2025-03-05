@@ -1,15 +1,20 @@
 import scipy.stats as stats
+import math
+import numpy as np
 
 def chi_cuadrada(numeros):
-    k = max(numeros) + 1
     n = len(numeros)
-    frecuencia_esperada = n / k
-    chi2 = 0
-    for i in range(k):
-        frecuencia_observada = numeros.count(i)
-        chi2 += (frecuencia_observada - frecuencia_esperada) ** 2 / frecuencia_esperada
-    grados_libertad = k - 1
+    m = math.ceil(math.sqrt(n))
+    minimo, maximo = min(numeros), max(numeros)
+    intervalos = np.linspace(minimo, maximo, m + 1)
+
+    frecuencias_observadas, _ = np.histogram(numeros, bins=intervalos)
+    frecuencia_esperada = n / m  
+
+    chi2 = sum((o - frecuencia_esperada) ** 2 / frecuencia_esperada for o in frecuencias_observadas)
+    grados_libertad = m - 1
     p_valor = 1 - stats.chi2.cdf(chi2, grados_libertad)
+    
     return chi2, p_valor
 
 def kolmogorov_smirnov():
