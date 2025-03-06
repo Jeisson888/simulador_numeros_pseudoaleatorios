@@ -17,11 +17,7 @@ def chi_cuadrada(numeros, desde, hasta):
     
     return chi2, chi2_tabla
 
-def kolmogorov_smirnov():
-# Datos
-    muestra_A = [2.1, 2.2, 2.4, 2.6, 2.8]
-    muestra_B = [1.9, 2.0, 2.3, 2.5, 2.7]
-
+def kolmogorov_smirnov(muestra_A, muestra_B):
 # Prueba K-S para dos muestras
     statistic, p_value = ks_2samp(muestra_A, muestra_B)
 
