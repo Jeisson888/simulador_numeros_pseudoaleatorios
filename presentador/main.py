@@ -1,7 +1,8 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
+import tkinter as tk
+from tkinter import ttk
 from modelo.generar import *
 from modelo.probar import *
 
@@ -64,3 +65,118 @@ t_estadistico, p_valor, resultado = prueba_medias(numeros_pseudoaleatorios)
 print(f"Estadístico t: {t_estadistico}")
 print(f"Valor p: {p_valor}")
 print(f"Resultado: {resultado}")
+
+def ejecutar_prueba():
+    metodo_generacion = metodo_generacion_var.get()
+    metodo_prueba = metodo_prueba_var.get()
+    n = int(n_entry.get())
+
+    if metodo_generacion == "Congruencial Lineal Multiplicativo":
+        semilla = int(semilla_entry.get())
+        iteraciones = int(a_entry.get())
+        m = int(m_entry.get())
+        numeros = congruencial_lineal_multiplicativo(iteraciones, multiplicador, semilla, modulo)
+    elif metodo_generacion == "Congruencial Lineal":
+        semilla = int(semilla_entry.get())
+        iteraciones = int(a_entry.get())
+        c = int(c_entry.get())
+        m = int(m_entry.get())
+        numeros = congruencial_lineal(iteraciones, multiplicador, semilla, corrimiento, modulo)
+    elif metodo_generacion == "Cuadrados Medios":
+        semilla = int(semilla_entry.get())
+        numeros = cuadrados_medios(iteraciones, semilla)
+
+    if metodo_prueba == "KS":
+        resultado = kolmogorov_smirnov(numeros, numeros)
+    elif metodo_prueba == "Chi-cuadrado":
+        resultado = chi_cuadrada(numeros, 0, 1)
+    elif metodo_prueba == "Medias":
+        resultado = prueba_medias(numeros)
+    elif metodo_prueba == "Varianza":
+        resultado = 0
+
+    resultado_label.config(text=resultado)
+
+def mostrar_parametros():
+    metodo_generacion = metodo_generacion_var.get()
+    ocultar_parametros()
+
+    if metodo_generacion == "Congruencial Lineal Multiplicativo":
+        a_label.grid(row=2, column=0, sticky="w", padx=5, pady=5)
+        a_entry.grid(row=2, column=1, sticky="ew", padx=5, pady=5)
+        m_label.grid(row=3, column=0, sticky="w", padx=5, pady=5)
+        m_entry.grid(row=3, column=1, sticky="ew", padx=5, pady=5)
+    elif metodo_generacion == "Congruencial Lineal":
+        a_label.grid(row=2, column=0, sticky="w", padx=5, pady=5)
+        a_entry.grid(row=2, column=1, sticky="ew", padx=5, pady=5)
+        c_label.grid(row=3, column=0, sticky="w", padx=5, pady=5)
+        c_entry.grid(row=3, column=1, sticky="ew", padx=5, pady=5)
+        m_label.grid(row=4, column=0, sticky="w", padx=5, pady=5)
+        m_entry.grid(row=4, column=1, sticky="ew", padx=5, pady=5)
+
+def ocultar_parametros():
+    a_label.grid_forget()
+    a_entry.grid_forget()
+    c_label.grid_forget()
+    c_entry.grid_forget()
+    m_label.grid_forget()
+    m_entry.grid_forget()
+    
+# Configuración de la interfaz gráfica mejorada
+ventana = tk.Tk()
+ventana.title("Pruebas de Números Aleatorios")
+ventana.geometry("400x450")  # Tamaño de la ventana
+
+frame_generacion = ttk.LabelFrame(ventana, text="Generación de Números")
+frame_generacion.pack(padx=10, pady=10, fill="x")
+
+metodo_generacion_label = tk.Label(frame_generacion, text="Método:")
+metodo_generacion_label.grid(row=0, column=0, sticky="w", padx=5, pady=5)
+
+metodo_generacion_var = tk.StringVar()
+metodo_generacion_combobox = ttk.Combobox(frame_generacion, textvariable=metodo_generacion_var, values=["Congruencial Lineal Multiplicativo", "Congruencial Lineal", "Cuadrados Medios"])
+metodo_generacion_combobox.grid(row=0, column=1, sticky="ew", padx=5, pady=5)
+metodo_generacion_combobox.bind("<<ComboboxSelected>>", lambda event: mostrar_parametros()) # bind the event
+
+semilla_label = tk.Label(frame_generacion, text="Semilla:")
+semilla_label.grid(row=1, column=0, sticky="w", padx=5, pady=5)
+semilla_entry = tk.Entry(frame_generacion)
+semilla_entry.grid(row=1, column=1, sticky="ew", padx=5, pady=5)
+
+a_label = tk.Label(frame_generacion, text="iteraciones:")
+a_label.grid(row=2, column=0, sticky="w", padx=5, pady=5)
+a_entry = tk.Entry(frame_generacion)
+a_entry.grid(row=2, column=1, sticky="ew", padx=5, pady=5)
+
+c_label = tk.Label(frame_generacion, text="c:")
+c_label.grid(row=3, column=0, sticky="w", padx=5, pady=5)
+c_entry = tk.Entry(frame_generacion)
+c_entry.grid(row=3, column=1, sticky="ew", padx=5, pady=5)
+
+m_label = tk.Label(frame_generacion, text="m:")
+m_label.grid(row=4, column=0, sticky="w", padx=5, pady=5)
+m_entry = tk.Entry(frame_generacion)
+m_entry.grid(row=4, column=1, sticky="ew", padx=5, pady=5)
+
+n_label = tk.Label(frame_generacion, text="Cantidad (n):")
+n_label.grid(row=5, column=0, sticky="w", padx=5, pady=5)
+n_entry = tk.Entry(frame_generacion)
+n_entry.grid(row=5, column=1, sticky="ew", padx=5, pady=5)
+
+frame_pruebas = ttk.LabelFrame(ventana, text="Pruebas Estadísticas")
+frame_pruebas.pack(padx=10, pady=10, fill="x")
+
+metodo_prueba_label = tk.Label(frame_pruebas, text="Método de Prueba:")
+metodo_prueba_label.pack()
+
+metodo_prueba_var = tk.StringVar()
+metodo_prueba_combobox = ttk.Combobox(frame_pruebas, textvariable=metodo_prueba_var, values=["KS", "Chi-cuadrado", "Medias", "Varianza"])
+metodo_prueba_combobox.pack()
+
+ejecutar_button = tk.Button(ventana, text="Ejecutar Prueba", command=ejecutar_prueba)
+ejecutar_button.pack(pady=10)
+
+resultado_label = tk.Label(ventana, text="", wraplength=380) # wraplength para ajustar el texto
+resultado_label.pack()
+
+ventana.mainloop()
