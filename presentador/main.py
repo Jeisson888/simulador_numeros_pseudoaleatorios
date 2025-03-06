@@ -54,3 +54,13 @@ print('Chi cuadrada: ' + str(chi2) + ', Chi cuadrada tabla: ' + str(chi2_tabla))
 # si chi2 < chi2_tabla, los datos son buenos
 
 kolmogorov_smirnov(datos_ejemplo, datos_ejemplo_2)
+
+# Ejemplo de uso
+np.random.seed(42)  # Para reproducibilidad
+numeros_pseudoaleatorios = np.random.uniform(0, 1, 100)  # Genera 100 números aleatorios
+
+t_estadistico, p_valor, resultado = prueba_medias(numeros_pseudoaleatorios)
+
+print(f"Estadístico t: {t_estadistico}")
+print(f"Valor p: {p_valor}")
+print(f"Resultado: {resultado}")

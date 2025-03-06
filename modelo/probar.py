@@ -29,9 +29,25 @@ def kolmogorov_smirnov(muestra_A, muestra_B):
     else:
         print('No podemos rechazar la hipótesis nula: no hay evidencia suficiente para afirmar que las muestras provienen de distribuciones diferentes.')
 
-def medias():
-    # completar
-    pass
+def prueba_medias(numeros, alfa=0.05):
+    media_observada = np.mean(numeros)
+    media_esperada = 0.5  # Valor esperado para distribución uniforme [0, 1]
+    desviacion_estandar = np.std(numeros, ddof=1)  # ddof=1 para corrección de Bessel
+    n = len(numeros)
+
+    # Estadístico de prueba t
+    t_estadistico = (media_observada - media_esperada) / (desviacion_estandar / np.sqrt(n))
+
+    # Valor p (prueba de dos colas)
+    p_valor = 2 * (1 - stats.t.cdf(abs(t_estadistico), df=n - 1))
+
+    # Decisión
+    if p_valor < alfa:
+        resultado = "Rechazar hipótesis nula (la media es diferente de 0.5)"
+    else:
+        resultado = "No rechazar hipótesis nula (la media es 0.5)"
+
+    return t_estadistico, p_valor, resultado
 
 def varianzas():
     # completar
