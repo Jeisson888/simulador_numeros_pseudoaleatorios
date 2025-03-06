@@ -1,6 +1,7 @@
 import scipy.stats as stats
 import math
 import numpy as np
+from scipy.stats import ks_2samp
 
 def chi_cuadrada(numeros, desde, hasta):
     n = len(numeros)
@@ -17,8 +18,20 @@ def chi_cuadrada(numeros, desde, hasta):
     return chi2, chi2_tabla
 
 def kolmogorov_smirnov():
-    # completar
-    pass
+# Datos
+    muestra_A = [2.1, 2.2, 2.4, 2.6, 2.8]
+    muestra_B = [1.9, 2.0, 2.3, 2.5, 2.7]
+
+# Prueba K-S para dos muestras
+    statistic, p_value = ks_2samp(muestra_A, muestra_B)
+
+    print(f'Estadística de prueba: {statistic}')
+    print(f'Valor p: {p_value}')
+
+    if p_value < 0.05:
+        print('Rechazamos la hipótesis nula: las muestras provienen de distribuciones diferentes.')
+    else:
+        print('No podemos rechazar la hipótesis nula: no hay evidencia suficiente para afirmar que las muestras provienen de distribuciones diferentes.')
 
 def medias():
     # completar
