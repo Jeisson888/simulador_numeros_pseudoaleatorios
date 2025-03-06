@@ -69,7 +69,7 @@ print(f"Resultado: {resultado}")
 def ejecutar_prueba():
     metodo_generacion = metodo_generacion_var.get()
     metodo_prueba = metodo_prueba_var.get()
-    n = int(n_entry.get())
+    iteraciones = int(n_entry.get())
 
     if metodo_generacion == "Congruencial Lineal Multiplicativo":
         semilla = int(semilla_entry.get())
