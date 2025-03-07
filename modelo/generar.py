@@ -29,6 +29,20 @@ def cuadrados_medios(iteraciones, semilla):
 
     return resultados
 
-def otro_algoritmo():
-    # completar
-    pass
+def pcg(iteraciones, multiplicador, incremento, semilla, modulo):
+    resultados = []
+
+    for _ in range(iteraciones):
+        # Paso 1: Congruencial Lineal
+        semilla = (multiplicador * semilla + incremento) % modulo
+        
+        # Paso 2: Permutación con desplazamientos y XOR
+        s = ((semilla >> 18) ^ semilla) >> 27
+        rot = semilla >> 59
+        
+        # Paso 3: Rotación circular
+        resultado = (s >> rot) | (s << (64 - rot)) & 0xFFFFFFFFFFFFFFFF
+        
+        resultados.append(resultado)
+
+    return resultados
