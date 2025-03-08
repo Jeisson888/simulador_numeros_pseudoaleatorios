@@ -49,6 +49,8 @@ def prueba_medias(numeros, alfa=0.05):
 
     return t_estadistico, p_valor, resultado
 
-def varianzas():
-    # completar
-    pass
+def varianzas(numeros):
+    n = len(numeros)
+    media = sum(numeros) / n
+    varianza = sum((x - media) ** 2 for x in numeros) / n
+    return varianza
