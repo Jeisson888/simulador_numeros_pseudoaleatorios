@@ -29,6 +29,41 @@ def cuadrados_medios(iteraciones, semilla):
 
     return resultados
 
+def cuadrados_medios2(iteraciones, semilla):
+    resultados = []
+    slen = len(str(semilla))
+
+    if slen %2 == 0:
+      
+      for i in range(iteraciones):
+        semilla2 = semilla ** 2
+        cadena = str(semilla2)
+
+        if len(cadena) %2 != 0:
+            cadena='0'+cadena
+        if len(cadena) < slen:
+            return "El número no tiene suficientes dígitos para extraer",slen,"centrales."
+        inicio = (len(cadena) - slen) // 2
+        digitos_centrales = cadena[inicio:inicio+slen]
+        resultados.append(int(digitos_centrales))
+        semilla = int(digitos_centrales)
+
+    else:      
+        for i in range(iteraciones):
+            semilla2 = semilla ** 2
+            cadena = str(semilla2)
+
+            if len(cadena) %2 == 0:
+                cadena='0'+cadena
+            if len(cadena) < slen:
+                return "El número no tiene suficientes dígitos para extraer",slen,"centrales."
+            inicio = (len(cadena) - slen) // 2
+            digitos_centrales = cadena[inicio:inicio+slen]
+            resultados.append(int(digitos_centrales))
+            semilla = int(digitos_centrales)
+
+    return resultados
+
 def pcg(iteraciones, multiplicador, incremento, semilla, modulo):
     resultados = []
 

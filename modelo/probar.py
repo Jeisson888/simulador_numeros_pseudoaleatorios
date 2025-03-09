@@ -49,8 +49,23 @@ def prueba_medias(numeros, alfa=0.05):
 
     return t_estadistico, p_valor, resultado
 
-def varianzas(numeros):
-    n = len(numeros)
-    media = sum(numeros) / n
-    varianza = sum((x - media) ** 2 for x in numeros) / n
-    return varianza
+def varianzas (data, confidence=0.95):
+    print(data)
+    n = len(data)
+    sample_variance = np.var(data, ddof=1)  # Varianza muestral
+    print(sample_variance)
+    df = n - 1  # Grados de libertad
+    
+    chi2_lower = stats.chi2.ppf((1-confidence) / 2, df)
+    print (chi2_lower)
+    chi2_upper = stats.chi2.ppf((1+confidence) / 2, df)
+    print (chi2_upper)
+    
+    lower_bound = chi2_lower / (12*df)
+    upper_bound = chi2_upper /(12*df)
+
+    if varianzas in (lower_bound,upper_bound):
+        return "Con nivel de confianza "+str(confidence)+"aceptamos la hipótesis nula ya que la varianza es igual a 1/12 "
+    else:
+        return "Con nivel de confianza "+str(confidence)+" rechazamos la hipótesis nula ya que la varianza es diferente a 1/12 "
+    
