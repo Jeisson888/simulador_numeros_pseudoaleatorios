@@ -1,6 +1,7 @@
 import sys
 import os
 import customtkinter as ctk
+from openpyxl import Workbook
 # Configuración inicial
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from modelo.generar import *
@@ -21,7 +22,7 @@ def ejecutar_prueba():
     except ValueError:
         resultado_label.configure(text="Error: Los valores deben ser numéricos.")
         return
-
+    
     numeros = []
     try:
         if metodo_generacion == "Congruencial Lineal Multiplicativo":
@@ -63,6 +64,8 @@ def ejecutar_prueba():
     except Exception as e:
         resultado_label.configure(text=f"Error: {str(e)}")
 
+    return numeros
+
 
 def mostrar_parametros():
     metodo_generacion = metodo_generacion_var.get()
@@ -82,10 +85,24 @@ def ocultar_parametros():
     for widget in [a_label, a_entry, c_label, c_entry, m_label, m_entry]:
         widget.pack_forget()
 
+
+def exportar_excel():
+    numeros = ejecutar_prueba()
+    print(numeros)
+    wb = Workbook()
+    ws = wb.active
+
+    ws.append(["Iteración", "Número"])
+
+    for i in range (len(numeros)):
+        ws.append([i+1,numeros[i]])
+
+    wb.save("Números_generados.xlsx")
+
 # Interfaz Gráfica
 ventana = ctk.CTk()
 ventana.title("Pruebas de Números Aleatorios")
-ventana.geometry("400x500")
+ventana.geometry("400x700")
 
 frame_generacion = ctk.CTkFrame(ventana)
 frame_generacion.pack(padx=10, pady=10, fill="x")
@@ -125,6 +142,9 @@ metodo_prueba_combobox.pack()
 
 ejecutar_button = ctk.CTkButton(ventana, text="Ejecutar Prueba", command=ejecutar_prueba)
 ejecutar_button.pack(pady=10)
+
+exportar_button = ctk.CTkButton(ventana, text="Exportar a excel", command=exportar_excel)
+exportar_button.pack(pady=10)
 
 resultado_label = ctk.CTkLabel(ventana, text="", wraplength=380)
 resultado_label.pack()
