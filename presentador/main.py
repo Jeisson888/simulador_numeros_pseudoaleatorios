@@ -48,7 +48,9 @@ def ejecutar_prueba():
         if metodo_prueba == "KS":
             resultado = kolmogorov_smirnov(numeros, numeros)
         elif metodo_prueba == "Chi-cuadrado":
-            chi2, chi2_tabla = chi_cuadrada(numeros, 0, 1)
+            max_numero = max(numeros)
+            n_digitos = len(str(max_numero))
+            chi2, chi2_tabla = chi_cuadrada(numeros, 0, int('9' * n_digitos))
             resultado = f"Estadístico de prueba: {chi2}\nValor crítico: {chi2_tabla}\n"
         elif metodo_prueba == "Medias":
             resultado = prueba_medias(numeros)
