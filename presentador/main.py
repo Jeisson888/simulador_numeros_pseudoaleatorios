@@ -45,11 +45,11 @@ def ejecutar_prueba():
         if not numeros:
             resultado_label.configure(text="No se generaron números.")
             return
-
         if metodo_prueba == "KS":
             resultado = kolmogorov_smirnov(numeros, numeros)
         elif metodo_prueba == "Chi-cuadrado":
-            resultado = chi_cuadrada(numeros, 0, 1)
+            chi2, chi2_tabla = chi_cuadrada(numeros, 0, 1)
+            resultado = f"Estadístico de prueba: {chi2}\nValor crítico: {chi2_tabla}\n"
         elif metodo_prueba == "Medias":
             resultado = prueba_medias(numeros)
         elif metodo_prueba == "Varianza":
