@@ -12,7 +12,7 @@ def congruencial_lineal(iteraciones, multiplicador, semilla, corrimiento, modulo
 
     for i in range(iteraciones):
         resultado = (multiplicador * semilla + corrimiento) % modulo
-        resultados.append(resultado)
+        resultados.append(resultado / 10 ** len(str(resultado)))
         semilla = resultado
 
     return resultados
