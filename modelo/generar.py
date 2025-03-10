@@ -64,20 +64,19 @@ def cuadrados_medios2(iteraciones, semilla):
 
     return resultados
 
-def pcg(iteraciones, multiplicador, incremento, semilla, modulo):
-    resultados = []
+def pcg(seed,n):
 
-    for _ in range(iteraciones):
-        # Paso 1: Congruencial Lineal
-        semilla = (multiplicador * semilla + incremento) % modulo
-        
-        # Paso 2: Permutación con desplazamientos y XOR
-        s = ((semilla >> 18) ^ semilla) >> 27
-        rot = semilla >> 59
-        
-        # Paso 3: Rotación circular
-        resultado = (s >> rot) | (s << (64 - rot)) & 0xFFFFFFFFFFFFFFFF
-        
-        resultados.append(resultado)
+    multiplier = 6364136223846793005
+    increment = 1442695040888963407
+    modulus = 2**64
+    state = seed
+    random_numbers = []
 
-    return resultados
+    for _ in range(n):
+        state = (state * multiplier + increment) % modulus
+        xorshifted = ((state >> 18) ^ state) >> 27
+        rot = state >> 59
+        rand_num = (xorshifted >> rot) | (xorshifted << ((-rot) & 31))
+        random_numbers.append(rand_num / float(2**32))
+
+    return random_numbers

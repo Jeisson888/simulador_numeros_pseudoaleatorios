@@ -25,9 +25,9 @@ def kolmogorov_smirnov(muestra_A, muestra_B):
     print(f'Valor p: {p_value}')
 
     if p_value < 0.05:
-        print('Rechazamos la hipótesis nula: las muestras provienen de distribuciones diferentes.')
+        return('Rechazamos la hipótesis nula: las muestras provienen de distribuciones diferentes.')
     else:
-        print('No podemos rechazar la hipótesis nula: no hay evidencia suficiente para afirmar que las muestras provienen de distribuciones diferentes.')
+        return('No podemos rechazar la hipótesis nula: no hay evidencia suficiente para afirmar que las muestras provienen de distribuciones diferentes.')
 
 def prueba_medias(numeros, alfa=0.05):
     media_observada = np.mean(numeros)

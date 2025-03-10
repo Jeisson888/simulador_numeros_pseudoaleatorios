@@ -35,12 +35,9 @@ def ejecutar_prueba():
             modulo = int(m_entry.get())
             numeros = congruencial_lineal(iteraciones, multiplicador, semilla, corrimiento, modulo)
         elif metodo_generacion == "Cuadrados Medios":
-            numeros = cuadrados_medios(iteraciones, semilla)
+            numeros = cuadrados_medios2(iteraciones, semilla)
         elif metodo_generacion == "Congruencial permutado":
-            multiplicador = int(a_entry.get())
-            corrimiento = int(c_entry.get())
-            modulo = int(m_entry.get())
-            numeros = pcg(iteraciones, multiplicador, corrimiento, semilla, modulo)
+            numeros = pcg(semilla,iteraciones)
         else:
             resultado_label.configure(text="Seleccione un método de generación válido.")
             return
@@ -76,12 +73,12 @@ def mostrar_parametros():
     metodo_generacion = metodo_generacion_var.get()
     ocultar_parametros()
 
-    if metodo_generacion in ["Congruencial Lineal Multiplicativo", "Congruencial Lineal", "Congruencial permutado"]:
+    if metodo_generacion in ["Congruencial Lineal Multiplicativo", "Congruencial Lineal"]:
         a_label.pack()
         a_entry.pack()
         m_label.pack()
         m_entry.pack()
-        if metodo_generacion in ["Congruencial Lineal", "Congruencial permutado"]:
+        if metodo_generacion in ["Congruencial Lineal"]:
             c_label.pack()
             c_entry.pack()
 
