@@ -77,6 +77,8 @@ def pcg(seed,n):
         xorshifted = ((state >> 18) ^ state) >> 27
         rot = state >> 59
         rand_num = (xorshifted >> rot) | (xorshifted << ((-rot) & 31))
+        print(rand_num)
+        print(rand_num/float(2**32))
         random_numbers.append(rand_num / float(2**32))
 
     return random_numbers

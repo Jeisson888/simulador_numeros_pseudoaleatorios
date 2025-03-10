@@ -56,15 +56,14 @@ def varianzas (data, confidence=0.95):
     print(sample_variance)
     df = n - 1  # Grados de libertad
     
-    chi2_lower = stats.chi2.ppf((1-confidence) / 2, df)
-    print (chi2_lower)
-    chi2_upper = stats.chi2.ppf((1+confidence) / 2, df)
-    print (chi2_upper)
+    chi2_lower, chi2_upper = stats.chi2.interval(confidence, df)
+    print(chi2_lower)
+    print(chi2_upper)
     
     lower_bound = chi2_lower / (12*df)
     upper_bound = chi2_upper /(12*df)
 
-    if varianzas in (lower_bound,upper_bound):
+    if lower_bound <= sample_variance <= upper_bound:
         return "Con nivel de confianza "+str(confidence)+"aceptamos la hipótesis nula ya que la varianza es igual a 1/12 "
     else:
         return "Con nivel de confianza "+str(confidence)+" rechazamos la hipótesis nula ya que la varianza es diferente a 1/12 "
