@@ -61,6 +61,11 @@ def ejecutar_prueba():
             resultado = "Seleccione una prueba válida."
 
         resultado_label.configure(text=resultado)
+
+    # Mostrar los números generados en el recuadro
+        numeros_textbox.delete("0.0", "end")
+        numeros_textbox.insert("0.0", "\n".join(map(str, numeros)))
+
     except Exception as e:
         resultado_label.configure(text=f"Error: {str(e)}")
 
@@ -102,9 +107,16 @@ def exportar_excel():
 # Interfaz Gráfica
 ventana = ctk.CTk()
 ventana.title("Pruebas de Números Aleatorios")
-ventana.geometry("400x700")
+ventana.geometry("500x700")
 
-frame_generacion = ctk.CTkFrame(ventana)
+frame_principal = ctk.CTkFrame(ventana)
+frame_principal.pack(pady=10, fill="x")
+
+# Frame para generación y prueba (lo que ya tenías)
+frame_izquierda = ctk.CTkFrame(frame_principal)
+frame_izquierda.grid(row=0, column=0, padx=10)
+
+frame_generacion = ctk.CTkFrame(frame_izquierda)
 frame_generacion.pack(padx=10, pady=10, fill="x")
 
 ctk.CTkLabel(frame_generacion, text="Método de Generación:").pack()
@@ -131,7 +143,7 @@ n_label.pack()
 n_entry = ctk.CTkEntry(frame_generacion)
 n_entry.pack()
 
-frame_pruebas = ctk.CTkFrame(ventana)
+frame_pruebas = ctk.CTkFrame(frame_izquierda)
 frame_pruebas.pack(padx=10, pady=10, fill="x")
 
 ctk.CTkLabel(frame_pruebas, text="Método de Prueba:").pack()
@@ -145,6 +157,18 @@ ejecutar_button.pack(pady=10)
 
 exportar_button = ctk.CTkButton(ventana, text="Exportar a excel", command=exportar_excel)
 exportar_button.pack(pady=10)
+
+# Frame para los resultados en horizontal
+frame_resultados = ctk.CTkFrame(frame_principal)
+frame_resultados.grid(row=0, column=1, padx=10)
+
+# Recuadro para mostrar los números generados
+frame_numeros = ctk.CTkFrame(frame_resultados)
+frame_numeros.pack(side="left", expand=True, fill="both", padx=5)
+
+ctk.CTkLabel(frame_numeros, text="Números Generados:").pack()
+numeros_textbox = ctk.CTkTextbox(frame_numeros, height=250, width=250)
+numeros_textbox.pack()
 
 resultado_label = ctk.CTkLabel(ventana, text="", wraplength=380)
 resultado_label.pack()
