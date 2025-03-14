@@ -35,7 +35,7 @@ def cuadrados_medios2(iteraciones, semilla):
             return "El número no tiene suficientes dígitos para extraer",slen,"centrales."
         inicio = (len(cadena) - slen) // 2
         digitos_centrales = cadena[inicio:inicio+slen]
-        resultados.append(int(digitos_centrales))
+        resultados.append(float(digitos_centrales)/10**slen)
         semilla = int(digitos_centrales)
 
     else:      
@@ -49,7 +49,7 @@ def cuadrados_medios2(iteraciones, semilla):
                 return "El número no tiene suficientes dígitos para extraer",slen,"centrales."
             inicio = (len(cadena) - slen) // 2
             digitos_centrales = cadena[inicio:inicio+slen]
-            resultados.append(int(digitos_centrales))
+            resultados.append(float(digitos_centrales)/10**slen)
             semilla = int(digitos_centrales)
 
     return resultados
