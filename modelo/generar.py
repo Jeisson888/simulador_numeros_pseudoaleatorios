@@ -54,21 +54,24 @@ def cuadrados_medios2(iteraciones, semilla):
 
     return resultados
 
-def pcg(seed,n):
-
+def pcg(seed, iterations):
+    state = seed
     multiplier = 6364136223846793005
     increment = 1442695040888963407
-    modulus = 2**64
-    state = seed
-    random_numbers = []
-
-    for _ in range(n):
-        state = (state * multiplier + increment) % modulus
-        xorshifted = ((state >> 18) ^ state) >> 27
+    results = []
+    
+    for _ in range(iterations):
+        # LCG: Actualiza el estado
+        state = (state * multiplier + increment) & 0xFFFFFFFFFFFFFFFF
+        
+        # Permutación con desplazamientos y XOR
+        shifted = ((state >> 18) ^ state) >> 27
         rot = state >> 59
-        rand_num = (xorshifted >> rot) | (xorshifted << ((-rot) & 31))
-        print(rand_num)
-        print(rand_num/float(2**32))
-        random_numbers.append(rand_num / float(2**32))
-
-    return random_numbers
+        
+        # Rotación circular
+        result = (shifted >> rot) | (shifted << (64 - rot)) & 0xFFFFFFFFFFFFFFFF
+        
+        # Normalización para obtener un número entre 0 y 1
+        results.append(result / 0xFFFFFFFFFFFFFFFF)
+    
+    return results

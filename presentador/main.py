@@ -2,7 +2,7 @@ import sys
 import os
 import customtkinter as ctk
 from openpyxl import Workbook
-# Configuración inicial
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from modelo.generar import *
 from modelo.probar import *
@@ -48,9 +48,6 @@ def ejecutar_prueba():
         if metodo_prueba == "KS":
             resultado = kolmogorov_smirnov(numeros, numeros)
         elif metodo_prueba == "Chi-cuadrado":
-            # max_numero = max(numeros)
-            # n_digitos = len(str(max_numero))
-            # chi2, chi2_tabla = chi_cuadrada(numeros, 0, int('1' + '0' * n_digitos))
             resultado = chi_cuadrada(numeros, 0, 1)
         elif metodo_prueba == "Medias":
             resultado = prueba_medias(numeros)
@@ -61,7 +58,6 @@ def ejecutar_prueba():
 
         resultado_label.configure(text=resultado)
 
-    # Mostrar los números generados en el recuadro
         numeros_textbox.delete("0.0", "end")
         numeros_textbox.insert("0.0", "\n".join(map(str, numeros)))
 
@@ -103,7 +99,6 @@ def exportar_excel():
 
     wb.save("Números_generados.xlsx")
 
-# Interfaz Gráfica
 ventana = ctk.CTk()
 ventana.title("Pruebas de Números Aleatorios")
 ventana.geometry("500x700")
@@ -111,7 +106,6 @@ ventana.geometry("500x700")
 frame_principal = ctk.CTkFrame(ventana)
 frame_principal.pack(pady=10, fill="x")
 
-# Frame para generación y prueba (lo que ya tenías)
 frame_izquierda = ctk.CTkFrame(frame_principal)
 frame_izquierda.grid(row=0, column=0, padx=10)
 
@@ -157,11 +151,9 @@ ejecutar_button.pack(pady=10)
 exportar_button = ctk.CTkButton(ventana, text="Exportar a excel", command=exportar_excel)
 exportar_button.pack(pady=10)
 
-# Frame para los resultados en horizontal
 frame_resultados = ctk.CTkFrame(frame_principal)
 frame_resultados.grid(row=0, column=1, padx=10)
 
-# Recuadro para mostrar los números generados
 frame_numeros = ctk.CTkFrame(frame_resultados)
 frame_numeros.pack(side="left", expand=True, fill="both", padx=5)
 
