@@ -46,7 +46,7 @@ def ejecutar_prueba():
             resultado_label.configure(text="No se generaron números.")
             return
         if metodo_prueba == "KS":
-            resultado = kolmogorov_smirnov(numeros, numeros)
+            resultado = kolmogorov_smirnov(numeros)
         elif metodo_prueba == "Chi-cuadrado":
             resultado = chi_cuadrada(numeros, 0, 1)
         elif metodo_prueba == "Medias":

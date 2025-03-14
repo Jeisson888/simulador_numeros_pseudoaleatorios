@@ -26,9 +26,10 @@ def chi_cuadrada(numeros, desde, hasta):
 
     return mensaje
 
-def kolmogorov_smirnov(muestra_A, muestra_B):
+def kolmogorov_smirnov(muestra_A):
     # Prueba K-S para dos muestras
-    statistic, p_value = ks_2samp(muestra_A, muestra_B)
+    mid = len(muestra_A)//2
+    statistic, p_value = ks_2samp(muestra_A[:mid], muestra_A[mid])
 
     print(f'Estadística de prueba: {statistic}')
     print(f'Valor p: {p_value}')
