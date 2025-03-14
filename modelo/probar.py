@@ -15,19 +15,28 @@ def chi_cuadrada(numeros, desde, hasta):
     grados_libertad = m - 1
     chi2_tabla = stats.chi2.ppf(1 - 0.05, grados_libertad)
     
-    return chi2, chi2_tabla
+    if chi2 < chi2_tabla:
+        conclusion = "Los datos son buenos."
+    else:
+        conclusion = "Los datos no son buenos."
+
+    mensaje = (f"Chi-cuadrado calculado: {chi2}\n"
+               f"Chi-cuadrado tabla: {chi2_tabla}\n"
+               f"{conclusion}")
+
+    return mensaje
 
 def kolmogorov_smirnov(muestra_A, muestra_B):
-# Prueba K-S para dos muestras
+    # Prueba K-S para dos muestras
     statistic, p_value = ks_2samp(muestra_A, muestra_B)
 
     print(f'Estadística de prueba: {statistic}')
     print(f'Valor p: {p_value}')
 
     if p_value < 0.05:
-        return('Rechazamos la hipótesis nula: las muestras provienen de distribuciones diferentes.')
+        return('Los datos no son buenos: las muestras provienen de distribuciones diferentes.')
     else:
-        return('No podemos rechazar la hipótesis nula: no hay evidencia suficiente para afirmar que las muestras provienen de distribuciones diferentes.')
+        return('Los datos son buenos: no hay evidencia suficiente para afirmar que las muestras provienen de distribuciones diferentes.')
 
 def prueba_medias(numeros, alfa=0.05):
     media_observada = np.mean(numeros)
@@ -43,9 +52,9 @@ def prueba_medias(numeros, alfa=0.05):
 
     # Decisión
     if p_valor < alfa:
-        resultado = "Rechazar hipótesis nula (la media es diferente de 0.5)"
+        resultado = "Los datos no son buenos (la media es diferente de 0.5)"
     else:
-        resultado = "No rechazar hipótesis nula (la media es 0.5)"
+        resultado = "Los datos son buenos (la media es 0.5)"
 
     return t_estadistico, p_valor, resultado
 
@@ -64,7 +73,7 @@ def varianzas (data, confidence=0.95):
     upper_bound = chi2_upper /(12*df)
 
     if lower_bound <= sample_variance <= upper_bound:
-        return "Con nivel de confianza "+str(confidence)+"aceptamos la hipótesis nula ya que la varianza es igual a 1/12 "
+        return "Con nivel de confianza "+str(confidence)+" los datos son buenos ya que la varianza es igual a 1/12 "
     else:
-        return "Con nivel de confianza "+str(confidence)+" rechazamos la hipótesis nula ya que la varianza es diferente a 1/12 "
-    
+        return "Con nivel de confianza "+str(confidence)+" los datos no son buenos ya que la varianza es diferente a 1/12 "
+

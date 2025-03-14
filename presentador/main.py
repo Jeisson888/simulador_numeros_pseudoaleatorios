@@ -51,8 +51,7 @@ def ejecutar_prueba():
             # max_numero = max(numeros)
             # n_digitos = len(str(max_numero))
             # chi2, chi2_tabla = chi_cuadrada(numeros, 0, int('1' + '0' * n_digitos))
-            chi2, chi2_tabla = chi_cuadrada(numeros, 0, 1)
-            resultado = f"Estadístico de prueba: {chi2}\nValor crítico: {chi2_tabla}\n"
+            resultado = chi_cuadrada(numeros, 0, 1)
         elif metodo_prueba == "Medias":
             resultado = prueba_medias(numeros)
         elif metodo_prueba == "Varianza":
