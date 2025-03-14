@@ -33,6 +33,11 @@ def kolmogorov_smirnov(muestra_A, muestra_B):
     print(f'Estadística de prueba: {statistic}')
     print(f'Valor p: {p_value}')
 
+    if muestra_A == muestra_B:
+        print("Las muestras son idénticas.")
+    if len(muestra_A) < 5 or len(muestra_B) < 5:
+        print("Advertencia: Tamaños de muestra pequeños.")
+
     if p_value < 0.05:
         return('Los datos no son buenos: las muestras provienen de distribuciones diferentes.')
     else:

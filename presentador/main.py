@@ -16,6 +16,7 @@ ctk.set_default_color_theme("blue")
 def ejecutar_prueba():
     metodo_generacion = metodo_generacion_var.get()
     metodo_prueba = metodo_prueba_var.get()
+    metodo_generacion2 = metodo_generacion2_var.get()
     try:
         iteraciones = int(n_entry.get())
         semilla = int(semilla_entry.get())
@@ -24,6 +25,8 @@ def ejecutar_prueba():
         return
     
     numeros = []
+    numeros2 = []
+    
     try:
         if metodo_generacion == "Congruencial Lineal Multiplicativo":
             multiplicador = int(a_entry.get())
@@ -42,11 +45,29 @@ def ejecutar_prueba():
             resultado_label.configure(text="Seleccione un método de generación válido.")
             return
 
+        if metodo_generacion2 == "Congruencial Lineal Multiplicativo":
+            multiplicador = int(a_entry.get())
+            modulo = int(m_entry.get())
+            numeros2 = congruencial_lineal_multiplicativo(iteraciones, multiplicador, semilla, modulo)
+        elif metodo_generacion == "Congruencial Lineal":
+            multiplicador = int(a_entry.get())
+            corrimiento = int(c_entry.get())
+            modulo = int(m_entry.get())
+            numeros2 = congruencial_lineal(iteraciones, multiplicador, semilla, corrimiento, modulo)
+        elif metodo_generacion == "Cuadrados Medios":
+            numeros2 = cuadrados_medios2(iteraciones, semilla)
+        elif metodo_generacion == "Congruencial permutado":
+            numeros2 = pcg(semilla,iteraciones)
+        else:
+            resultado_label.configure(text="Seleccione un método de generación válido.")
+            return
+        
+
         if not numeros:
             resultado_label.configure(text="No se generaron números.")
             return
         if metodo_prueba == "KS":
-            resultado = kolmogorov_smirnov(numeros, numeros)
+            resultado = kolmogorov_smirnov(numeros, numeros2)
         elif metodo_prueba == "Chi-cuadrado":
             # max_numero = max(numeros)
             # n_digitos = len(str(max_numero))
@@ -60,7 +81,6 @@ def ejecutar_prueba():
             resultado = "Seleccione una prueba válida."
 
         resultado_label.configure(text=resultado)
-
     # Mostrar los números generados en el recuadro
         numeros_textbox.delete("0.0", "end")
         numeros_textbox.insert("0.0", "\n".join(map(str, numeros)))
@@ -84,11 +104,40 @@ def mostrar_parametros():
             c_label.pack()
             c_entry.pack()
 
+def mostrar_parametros_KS():
+    metodo_generacion = metodo_generacion2_var.get()
+    generacion2.pack()
+    metodo_generacion2_combobox.pack()
+    semilla_label2.pack()
+    semilla_entry2.pack()
+    n2_label.pack()
+    n2_entry.pack()
+    
+    if metodo_generacion in ["Congruencial Lineal Multiplicativo", "Congruencial Lineal"]:
+        a2_label.pack()
+        a2_entry.pack()
+        m2_label.pack()
+        m2_entry.pack()
+        if metodo_generacion in ["Congruencial Lineal"]:
+            c2_label.pack()
+            c2_entry.pack()
+            
+def mostrar_generacion_KS():
+    metodo_prueba = metodo_prueba_var.get()
 
+    if metodo_prueba in ["KS"]:
+        mostrar_parametros_KS()
+    else:
+        ocultar_parametros2()
+            
+            
 def ocultar_parametros():
     for widget in [a_label, a_entry, c_label, c_entry, m_label, m_entry]:
         widget.pack_forget()
 
+def ocultar_parametros2():
+    for widget in [a2_label, a2_entry, c2_label, c2_entry, m2_label, m2_entry, semilla_label2, semilla_entry2, metodo_generacion2_combobox, n2_entry, n2_label, generacion2]:
+        widget.pack_forget()
 
 def exportar_excel():
     numeros = ejecutar_prueba()
@@ -102,7 +151,6 @@ def exportar_excel():
         ws.append([i+1,numeros[i]])
 
     wb.save("Números_generados.xlsx")
-
 # Interfaz Gráfica
 ventana = ctk.CTk()
 ventana.title("Pruebas de Números Aleatorios")
@@ -148,9 +196,33 @@ frame_pruebas.pack(padx=10, pady=10, fill="x")
 ctk.CTkLabel(frame_pruebas, text="Método de Prueba:").pack()
 metodo_prueba_var = ctk.StringVar()
 metodo_prueba_combobox = ctk.CTkComboBox(frame_pruebas, variable=metodo_prueba_var, 
-    values=["KS", "Chi-cuadrado", "Medias", "Varianza"])
+    values=["KS", "Chi-cuadrado", "Medias", "Varianza"],
+    command=lambda event: mostrar_generacion_KS())
 metodo_prueba_combobox.pack()
 
+generacion2 = ctk.CTkLabel(frame_pruebas, text="Método de Generación:")
+metodo_generacion2_var = ctk.StringVar()
+metodo_generacion2_combobox = ctk.CTkComboBox(frame_pruebas, variable=metodo_generacion2_var, 
+    values=["Congruencial Lineal Multiplicativo", "Congruencial Lineal", "Cuadrados Medios", "Congruencial permutado"],
+    command=lambda event: mostrar_parametros_KS())
+
+semilla_label2 = ctk.CTkLabel(frame_pruebas, text="Semilla:")
+semilla_label2.pack()
+semilla_entry2 = ctk.CTkEntry(frame_pruebas)
+semilla_entry2.pack()
+
+a2_label = ctk.CTkLabel(frame_pruebas, text="Multiplicador:")
+a2_entry = ctk.CTkEntry(frame_pruebas)
+c2_label = ctk.CTkLabel(frame_pruebas, text="Corrimiento:")
+c2_entry = ctk.CTkEntry(frame_pruebas)
+m2_label = ctk.CTkLabel(frame_pruebas, text="Módulo:")
+m2_entry = ctk.CTkEntry(frame_pruebas)
+
+n2_label = ctk.CTkLabel(frame_pruebas, text="Cantidad (n):")
+n2_label.pack()
+n2_entry = ctk.CTkEntry(frame_pruebas)
+n2_entry.pack()
+ocultar_parametros2()
 ejecutar_button = ctk.CTkButton(ventana, text="Ejecutar Prueba", command=ejecutar_prueba)
 ejecutar_button.pack(pady=10)
 
