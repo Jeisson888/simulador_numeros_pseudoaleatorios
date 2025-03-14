@@ -27,13 +27,13 @@ def chi_cuadrada(numeros, desde, hasta):
     return mensaje
 
 def kolmogorov_smirnov(muestra_A, muestra_B):
-    # Prueba K-S para dos muestras
+    print(muestra_A, muestra_B)
     statistic, p_value = ks_2samp(muestra_A, muestra_B)
 
     print(f'Estadística de prueba: {statistic}')
     print(f'Valor p: {p_value}')
 
-    if muestra_A == muestra_B:
+    if np.array_equal(muestra_A, muestra_B): #usar numpy para comparar arrays.
         print("Las muestras son idénticas.")
     if len(muestra_A) < 5 or len(muestra_B) < 5:
         print("Advertencia: Tamaños de muestra pequeños.")

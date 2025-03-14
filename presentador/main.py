@@ -43,16 +43,17 @@ def ejecutar_prueba():
             numeros = pcg(semilla,iteraciones)
         else:
             resultado_label.configure(text="Seleccione un método de generación válido.")
-            return
-
+        
+        iteraciones = int(n2_entry.get())
+        semilla = int(semilla_entry2.get())
         if metodo_generacion2 == "Congruencial Lineal Multiplicativo":
-            multiplicador = int(a_entry.get())
-            modulo = int(m_entry.get())
+            multiplicador = int(a2_entry.get())
+            modulo = int(m2_entry.get())
             numeros2 = congruencial_lineal_multiplicativo(iteraciones, multiplicador, semilla, modulo)
         elif metodo_generacion == "Congruencial Lineal":
-            multiplicador = int(a_entry.get())
-            corrimiento = int(c_entry.get())
-            modulo = int(m_entry.get())
+            multiplicador = int(a2_entry.get())
+            corrimiento = int(c2_entry.get())
+            modulo = int(m2_entry.get())
             numeros2 = congruencial_lineal(iteraciones, multiplicador, semilla, corrimiento, modulo)
         elif metodo_generacion == "Cuadrados Medios":
             numeros2 = cuadrados_medios2(iteraciones, semilla)
