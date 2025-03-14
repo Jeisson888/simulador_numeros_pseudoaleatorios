@@ -34,7 +34,7 @@ def kolmogorov_smirnov(muestra_A):
     print(f'Estadística de prueba: {statistic}')
     print(f'Valor p: {p_value}')
 
-    if p_value < 0.05:
+    if p_value < 0.10:
         return('Los datos no son buenos: las muestras provienen de distribuciones diferentes.')
     else:
         return('Los datos son buenos: no hay evidencia suficiente para afirmar que las muestras provienen de distribuciones diferentes.')
